@@ -24,12 +24,11 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    docker.image("${IMAGE_NAME}") {
-                        sh "python -m unittest test_app.py"
-                    }
+                    sh "docker run --rm ${IMAGE_NAME} python -m unittest discover -s /app -p 'test_*.py'"
                 }
             }
         }
+
 
         // stage('Cleanup') {
         //     steps {
