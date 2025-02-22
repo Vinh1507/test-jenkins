@@ -30,10 +30,12 @@ pipeline {
             }
         }
 
-        stage('Run Tests Inside Container') {
+        stage('Run Tests') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} python -m unittest test_app.py"
+                    docker.image("${IMAGE_NAME}") {
+                        sh "docker exec ${CONTAINER_NAME} python -m unittest test_app.py"
+                    }
                 }
             }
         }
