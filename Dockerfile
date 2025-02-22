@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Sao chép các file vào container
 COPY requirements.txt requirements.txt
-COPY app.py app.py
+COPY . .
 
 # Cài đặt các thư viện cần thiết
 RUN pip install --no-cache-dir -r requirements.txt
