@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-acc'
         IMAGE_NAME = "flask-sum-api"
         CONTAINER_NAME = "flask-test-container"
+        TAG_NAME = "1.0"
     }
 
     stages {
@@ -29,13 +31,15 @@ pipeline {
             }
         }
 
-
-        // stage('Cleanup') {
-        //     steps {
-        //         script {
-        //             sh "docker stop ${CONTAINER_NAME}"
-        //         }
-        //     }
-        // }
+        stage('Push to Docker Hub') {
+            steps {
+                // Login to Docker Hub
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-acc', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                }
+                // Push Docker image to Docker Hub
+                sh "docker push ${IMAGE_NAME}:${TAG_NAME}"
+            }
+        }
     }
 }
