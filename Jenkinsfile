@@ -21,20 +21,11 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                script {
-                    sh "docker run -d --rm --name ${CONTAINER_NAME} ${IMAGE_NAME}"
-                    sleep 5  // Đợi container khởi động
-                }
-            }
-        }
-
         stage('Run Tests') {
             steps {
                 script {
                     docker.image("${IMAGE_NAME}") {
-                        sh "docker exec ${CONTAINER_NAME} python -m unittest test_app.py"
+                        sh "python -m unittest test_app.py"
                     }
                 }
             }
