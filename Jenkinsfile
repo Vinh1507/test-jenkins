@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = 'dockerhub-acc'
-        IMAGE_NAME = "flask-sum-api"
+        IMAGE_NAME = "flask-sum-api:1.0"
         CONTAINER_NAME = "flask-test-container"
         TAG_NAME = "1.0"
     }
@@ -33,13 +33,25 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                // Login to Docker Hub
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-acc', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                 }
-                // Push Docker image to Docker Hub
-                sh "docker push ${IMAGE_NAME}:${TAG_NAME}"
+                sh "docker push ${IMAGE_NAME}"
             }
+        }
+    }
+
+    post {
+        always {
+            echo "Job Completed! Cleaning up resources..."
+        }
+
+        success {
+            echo "Build & Test Passed. Image pushed to Docker Hub successfully!"
+        }
+
+        failure {
+            echo "Job failed. Cleaning up unused Docker resources..."
         }
     }
 }
