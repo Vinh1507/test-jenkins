@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
+        DOCKER_USERNAME = 'vinhbh'
         DOCKER_HUB_CREDENTIALS = 'dockerhub-acc'
-        IMAGE_NAME = "flask-sum-api:1.0"
+        IMAGE_NAME = "${DOCKER_USERNAME}/flask-sum-api:1.0"
         CONTAINER_NAME = "flask-test-container"
-        TAG_NAME = "1.0"
     }
 
     stages {
