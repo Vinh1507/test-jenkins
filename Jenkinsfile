@@ -24,7 +24,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    sh "docker run -d --rm --name ${CONTAINER_NAME} -p 5000:5000 ${IMAGE_NAME}"
+                    sh "docker run -d --rm --name ${CONTAINER_NAME} ${IMAGE_NAME}"
                     sleep 5  // Đợi container khởi động
                 }
             }
