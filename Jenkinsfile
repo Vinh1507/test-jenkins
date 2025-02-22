@@ -31,12 +31,12 @@ pipeline {
             }
         }
 
-        stage('Cleanup') {
-            steps {
-                script {
-                    sh "docker stop ${CONTAINER_NAME}"
-                }
-            }
-        }
+        // stage('Cleanup') {
+        //     steps {
+        //         script {
+        //             sh "docker stop ${CONTAINER_NAME}"
+        //         }
+        //     }
+        // }
     }
 }
